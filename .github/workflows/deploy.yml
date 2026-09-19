@@ -1,0 +1,36 @@
+name: Deploy AWS Lambdas
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Deploy CreateOrder Lambda
+        run: |
+          cd lambdas/cmtr_ar11voam_lambda_createOrder
+          zip -r function.zip handler.py
+          aws lambda update-function-code --function-name cmtr_ar11voam_lambda_createOrder --zip-file fileb://function.zip
+
+      - name: Deploy ReserveStock Lambda
+        run: |
+          cd lambdas/cmtr_ar11voam_lambda_reserveStock
+          zip -r function.zip handler.py
+          aws lambda update-function-code --function-name cmtr_ar11voam_lambda_reserveStock --zip-file fileb://function.zip
+
+      - name: Deploy SendNotification Lambda
+        run: |
+          cd lambdas/cmtr_ar11voam_lambda_sendNotification
+          zip -r function.zip handler.py
+          aws lambda update-function-code --function-name cmtr_ar11voam_lambda_sendNotification --zip-file fileb://function.zip
