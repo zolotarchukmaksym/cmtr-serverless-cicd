@@ -19,18 +19,18 @@ jobs:
 
       - name: Deploy CreateOrder Lambda
         run: |
-          cd lambdas/cmtr_ar11voam_lambda_createOrder
+          cd cmtr_ar11voam_lambda_createOrder
           zip -r function.zip handler.py
           aws lambda update-function-code --function-name cmtr_ar11voam_lambda_createOrder --zip-file fileb://function.zip
 
       - name: Deploy ReserveStock Lambda
         run: |
-          cd lambdas/cmtr_ar11voam_lambda_reserveStock
+          cd cmtr_ar11voam_lambda_reserveStock
           zip -r function.zip handler.py
           aws lambda update-function-code --function-name cmtr_ar11voam_lambda_reserveStock --zip-file fileb://function.zip
 
       - name: Deploy SendNotification Lambda
         run: |
-          cd lambdas/cmtr_ar11voam_lambda_sendNotification
+          cd cmtr_ar11voam_lambda_sendNotification
           zip -r function.zip handler.py
           aws lambda update-function-code --function-name cmtr_ar11voam_lambda_sendNotification --zip-file fileb://function.zip
